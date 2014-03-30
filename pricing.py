@@ -1,19 +1,20 @@
 from random import randint
 from pylab import *
+import random as rd
+import math as m
+import itertools
 
-roomA = [2,3,7,8,9,10,12,14,15,16,17]
-roomB = [2,3,4,5,8,9,10,11,13,14,16,17]
-roomC = [1,3,4,5,6,7,9,10,11,13,14,17]
-roomD = [1,5,6,7,10,11,13,17]
-unit1 = [roomA, roomB, roomC, roomD]
-unit2 = [roomA, roomB, roomD, roomC]
-unit3 = [roomA, roomC, roomB, roomD]
-unit4 = [roomA, roomC, roomD, roomB]
-unit5 = [roomA, roomD, roomB, roomC]
-unit6 = [roomA, roomD, roomC, roomB]
+A = [2,3,7,8,9,10,12,14,15,16,17]
+B = [2,3,4,5,8,9,10,11,13,14,16,17]
+C = [1,3,4,5,6,7,9,10,11,13,14,17]
+D = [1,5,6,7,10,11,13,17]
+unit = [A, B, C, D]
+unitCombinations = list(itertools.permutations(unit,len(unit)))
+
 students = 17
 trials = 10000
 result = []
+results = []
 check = []
 
 def rollTheDice(room, check):
@@ -24,14 +25,21 @@ def rollTheDice(room, check):
 	else:
 		rollTheDice(room, check)
 
-def orderTheDraw(unit, trials):
+def runSimulation(unit, trials):
 	for _ in range(trials):
 		for r in unit:
 			rollTheDice(r, check)
 		del check[:]
 
-orderTheDraw(unit6, trials)
+def runSimulations():
+    for i in unitCombinations:
+        runSimulation(i, trials)
+        del result[:]
 
-for i in range(students):
-	print i + 1,
-	print float(result.count(i+1))/float(trials)
+def printList(result):
+	for i in range(students):
+		print i+1,
+		print float(result.count(i+1))/float(trials)
+
+runSimulations()
+print results
