@@ -9,7 +9,9 @@ B = [2,3,4,5,8,9,10,11,13,14,16,17]
 C = [1,3,4,5,6,7,9,10,11,13,14,17]
 D = [1,5,6,7,10,11,13,17]
 unit = [A, B, C, D]
+unitNames = ['A', 'B', 'C', 'D']
 unitCombinations = list(itertools.permutations(unit,len(unit)))
+unitCombinationsNames = list(itertools.permutations(unitNames,len(unitNames)))
 
 students = 17
 trials = 10000
@@ -34,6 +36,7 @@ def runSimulation(unit, trials):
 def runSimulations():
     for i in unitCombinations:
         runSimulation(i, trials)
+        printList(result)
         del result[:]
 
 def printList(result):
@@ -41,5 +44,9 @@ def printList(result):
 		print i+1,
 		print float(result.count(i+1))/float(trials)
 
+def printCombos(result):
+	for i in result:
+		print i
+
 runSimulations()
-print results
+printCombos(unitCombinationsNames)
